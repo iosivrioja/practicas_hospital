@@ -41,3 +41,10 @@ def actualizar_subarea(nombre, descripcion, area_id, id):
                        (nombre, descripcion, area_id, id))
     conexion.commit()
     conexion.close()
+
+def actualizar_estado_aubarea(id, nuevo_estado):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("UPDATE subarea SET estado = %s WHERE id = %s", (nuevo_estado, id))
+    conexion.commit()
+    conexion.close()

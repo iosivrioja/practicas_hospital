@@ -41,3 +41,10 @@ def actualizar_equipo(codigo_patrimonial, tipo_equipo_id, procesador, memoria_ra
                        (codigo_patrimonial, tipo_equipo_id, procesador, memoria_ram, sistema_operativo, subarea_id, almacenamiento, estado, id))
     conexion.commit()
     conexion.close()
+
+def actualizar_estado_agente(id, nuevo_estado):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("UPDATE agente SET estado = %s WHERE id = %s", (nuevo_estado, id))
+    conexion.commit()
+    conexion.close()

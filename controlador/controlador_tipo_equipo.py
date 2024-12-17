@@ -41,3 +41,10 @@ def actualizar_tipo_equipo(nombre, descripcion, id):
                        (nombre, descripcion, id))
     conexion.commit()
     conexion.close()
+
+def actualizar_estado_tipo_equipo(id, nuevo_estado):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("UPDATE tipo_equipo SET estado = %s WHERE id = %s", (nuevo_estado, id))
+    conexion.commit()
+    conexion.close()

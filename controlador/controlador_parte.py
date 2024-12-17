@@ -41,3 +41,10 @@ def actualizar_parte(nombre, descripcion, equipo_id, id):
                        (nombre, descripcion, equipo_id, id))
     conexion.commit()
     conexion.close()
+
+def actualizar_estado_parte(id, nuevo_estado):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("UPDATE parte SET estado = %s WHERE id = %s", (nuevo_estado, id))
+    conexion.commit()
+    conexion.close()
