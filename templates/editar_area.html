@@ -1,0 +1,31 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Editar area
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Editar area</h3>
+            <form action="{{url_for('actualizar_area')}}" method="post">
+                {# Enviar el ID en un campo oculto #}
+                <input type="hidden" name="id" value="{{area[0]}}">
+                
+                <label for="nombre">Nombre:</label>
+                <input value="{{area[1]}}" required type="text" class="input" placeholder="Nombre" name="nombre" id="nombre">
+                
+                <label for="descripcion">Descripcion:</label>
+                <input value="{{area[2]}}" required type="text" class="input" placeholder="Descripcion" name="descripcion" id="descripcion">
+                
+                <div class="field mt-2">
+                    <input type="checkbox" name="estado" id="estado" class="is-checkradio">
+                    <label for="estado">Activo</label>
+                </div>
+
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('areas')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

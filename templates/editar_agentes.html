@@ -1,0 +1,34 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Editar agente
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Editar agente</h3>
+            <form action="{{url_for('actualizar_agente')}}" method="post">
+                {# Enviar el ID en un campo oculto #}
+                <input type="hidden" name="id" value="{{agente[0]}}">
+                
+                <label for="nombre">Nombre:</label>
+                <input value="{{agente[1]}}" required type="text" class="input" placeholder="Nombre" name="nombre" id="nombre">
+                
+                <label for="email">Email:</label>
+                <input value="{{agente[2]}}" required type="email" class="input" placeholder="Email" name="email" id="email">
+                
+                <label for="telefono">Teléfono:</label>
+                <input value="{{agente[3]}}" required type="text" class="input" placeholder="Telefono" name="telefono" id="telefono">
+
+                <label for="estado">Estado:</label>
+                <input type="checkbox" name="estado" id="estado" {% if agente[4] == 'Activo' %} checked {% endif %}>
+                <label for="estado">Activo</label>
+
+                
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('agentes')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

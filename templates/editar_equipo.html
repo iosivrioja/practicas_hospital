@@ -1,0 +1,56 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Editar equipo
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Editar equipo</h3>
+            <form action="{{url_for('actualizar_equipo')}}" method="post">
+                <!-- Enviar el ID en un campo oculto -->
+                <input type="hidden" name="id" value="{{equipo[0]}}">
+                
+                <label for="codigo_patrimonial">Código patrimonial:</label>
+                <input required type="text" class="input" placeholder="Codigo_patrimonial" name="codigo_patrimonial" id="codigo_patrimonial" value="{{equipo[1]}}">
+
+                <label for="tipo_equipo_id">Tipo equipo:</label>
+                <select required class="input" name="tipo_equipo_id" id="tipo_equipo_id">
+                    {% for tipoequipo in tipo_equipos %}
+                        <option value="{{ tipoequipo[0] }}" {% if tipoequipo[0] == equipo[2] %} selected {% endif %}>{{ tipoequipo[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="procesador">Procesador:</label>
+                <input required type="text" class="input" placeholder="Procesador" name="procesador" id="procesador" value="{{equipo[3]}}">
+
+                <label for="memoria_ram">Memoria RAM:</label>
+                <input required type="number" class="input" placeholder="Memoria_ram" name="memoria_ram" id="memoria_ram" value="{{equipo[4]}}">
+
+                <label for="sistema_operativo">Sistema Operativo:</label>
+                <input required type="text" class="input" placeholder="Sistema_operativo" name="sistema_operativo" id="sistema_operativo" value="{{equipo[5]}}">
+
+                <label for="subarea_id">Subarea:</label>
+                <select required class="input" name="subarea_id" id="subarea_id">
+                    {% for subarea in subareas %}
+                        <option value="{{ subarea[0] }}" {% if subarea[0] == equipo[6] %} selected {% endif %}>{{ subarea[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="almacenamiento">Almacenamiento:</label>
+                <input required type="number" class="input" placeholder="Almacenamiento" name="almacenamiento" id="almacenamiento" value="{{equipo[7]}}">
+
+                <label for="estado">Estado:</label>
+                <input list="estados" class="input" id="estado" name="estado" placeholder="Estado" value="{{equipo[8]}}" >
+                <datalist id="estados">
+                    <option value="Activo">
+                    <option value="Inactivo">
+                </datalist>
+                
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('equipos')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

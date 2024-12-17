@@ -1,0 +1,30 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Editar subarea
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Editar subarea</h3>
+            <form action="{{url_for('actualizar_subarea')}}" method="post">
+                {# Enviar el ID en un campo oculto #}
+                <input type="hidden" name="id" value="{{subarea[0]}}">
+                <label for="nombre">Nombre:</label>
+                <input value="{{subarea[1]}}" required type="text" class="input" placeholder="Nombre" name="nombre" id="nombre">
+                <label for="descripcion">Descripcion:</label>
+                <input value="{{subarea[2]}}" required type="text" class="input" placeholder="Descripcion" name="descripcion" id="descripcion">
+                <label for="area_id">ID Area:</label>
+                <select required class="input" name="area_id" id="area_id">
+                    {% for area in areas %}
+                        <option value="{{ area[0] }}" {% if area[0] == subarea[3] %} selected {% endif %}>{{ area[1] }}</option>
+                    {% endfor %}
+                </select>
+                
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('subareas')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

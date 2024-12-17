@@ -1,0 +1,55 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Agregar equipo
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column is-one-third">
+            <h3 class="is-size-3">Agregar equipo</h3>
+
+            <form action="{{url_for('guardar_equipo')}}" method="post">
+
+                <label for="codigo_patrimonial">Código patrimonial:</label>
+                <input required type="text" class="input" placeholder="Codigo_patrimonial" name="codigo_patrimonial" id="codigo_patrimonial">
+
+                <label for="tipo_equipo_id">Tipo de equipo:</label>
+                <select required class="input" name="tipo_equipo_id" id="tipo_equipo_id">
+                    {% for tipoequipo in tipo_equipos %}
+                        <option value="{{ tipoequipo[0] }}">{{ tipoequipo[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="procesador">Procesador:</label>
+                <input required type="text" class="input" placeholder="Procesador" name="procesador" id="procesador">
+
+                <label for="memoria_ram">Memoria RAM (GB):</label>
+                <input required type="number" class="input" placeholder="Memoria_ram" name="memoria_ram" id="memoria_ram">
+
+                <label for="sistema_operativo">Sistema Operativo:</label>
+                <input required type="text" class="input" placeholder="Sistema_operativo" name="sistema_operativo" id="sistema_operativo">
+
+                <label for="subarea_id">Subarea:</label>
+                <select required class="input" name="subarea_id" id="subarea_id">
+                    {% for subarea in subareas %}
+                        <option value="{{ subarea[0] }}">{{ subarea[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="almacenamiento">Almacenamiento (GB):</label>
+                <input required type="number" class="input" placeholder="Almacenamiento" name="almacenamiento" id="almacenamiento">
+
+                <label for="estado">Estado:</label>
+                <input list="estados" class ="input"  id="estado" name="estado" placeholder="Estado">
+                <datalist id="estados">
+                    <option value="Activo">
+                    <option value="Inactivo">
+                </datalist>
+                
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('equipos')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

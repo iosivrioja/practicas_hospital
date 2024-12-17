@@ -1,0 +1,43 @@
+{% extends "maestra.html" %}
+{% block titulo %} Partes {% endblock %}
+{% block contenido %}
+
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Partes</h3>
+            <a href="{{url_for('formulario_agregar_parte')}}" class="button is-success">Agregar</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Equipo</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for parte in partes %}
+                    <tr>
+                        <td>{{parte[1]}}</td>
+                        <td>{{parte[2]}}</td>
+                        <td>{{parte[3]}}</td>
+                        <td>
+                            {# Pasar el id (lo que hay en parte[0]) #}
+                            <a href="{{url_for('editar_parte', id=parte[0])}}" class="button is-info">Editar</a>
+                        </td>
+                        <td>
+                            <form action="{{url_for('eliminar_parte')}}" method="POST">
+                                <input type="hidden" name="id" value="{{parte[0]}}">
+                                <button class="button is-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

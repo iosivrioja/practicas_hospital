@@ -1,0 +1,23 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Agregar tipo de equipo
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column is-one-third">
+            <h3 class="is-size-3">Agregar tipo de equipo</h3>
+            <form action="{{url_for('guardar_tipo_equipo')}}" method="post">
+                <label for="nombre">Nombre:</label>
+                <input required type="text" class="input" placeholder="Nombre" name="nombre" id="nombre">
+
+                <label for="descripcion">Descripción:</label>
+                <input required type="text" class="input" placeholder="Descripcion" name="descripcion" id="descripcion">
+                
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('tipo_equipos')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

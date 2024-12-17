@@ -1,0 +1,33 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Editar parte
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Editar parte</h3>
+            <form action="{{url_for('actualizar_parte')}}" method="post">
+                {# Enviar el ID en un campo oculto #}
+                <input type="hidden" name="id" value="{{parte[0]}}">
+
+                <label for="nombre">Nombre:</label>
+                <input value="{{parte[1]}}" required type="text" class="input" placeholder="Nombre" name="nombre" id="nombre">
+                
+                <label for="descripcion">Descripcion:</label>
+                <input value="{{parte[2]}}" required type="text" class="input" placeholder="Descripcion" name="descripcion" id="descripcion">
+
+                <label for="equipo_id">Equipo:</label>
+                <select required class="input" name="equipo_id" id="equipo_id">
+                    {% for equipo in equipos %}
+                        <option value="{{ equipo[0] }}" {% if equipo[0] == parte[3] %} selected {% endif %}>{{ equipo[1] }}</option>
+                    {% endfor %}
+                </select>
+                
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('partes')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

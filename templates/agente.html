@@ -1,0 +1,54 @@
+{% extends "maestra.html" %}
+{% block titulo %} Agentes {% endblock %}
+{% block contenido %}
+
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-4">Agentes</h3>
+            <a href="{{url_for('formulario_agregar_agente')}}" class="button is-success">Agregar</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Telefono</th>
+                        <th>Estado</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for agente in agentes %}
+                    <tr>
+                        <td>{{agente[1]}}</td>
+                        <td>{{agente[2]}}</td>
+                        <td>{{agente[3]}}</td>
+                        <td>{{agente[4]}}</td>
+                        <td>
+                            <form action="{{ url_for('cambiar_estado_agente') }}" method="POST">
+                                <input type="hidden" name="id" value="{{ agente[0] }}">
+                                <input type="hidden" name="estado" value="{{ 'Inactivo' if agente[4] == 'Activo' else 'Activo' }}">
+                                <button type="submit" class="button is-warning">
+                                    {{ 'Desactivar' if agente[4] == 'Activo' else 'Activar' }}
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            {# Pasar el id (lo que hay en agente[0]) #}
+                            <a href="{{url_for('editar_agente', id=agente[0])}}" class="button is-info">Editar</a>
+                        </td>
+                        <td>
+                            <form action="{{url_for('eliminar_agente')}}" method="POST">
+                                <input type="hidden" name="id" value="{{agente[0]}}">
+                                <button class="button is-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

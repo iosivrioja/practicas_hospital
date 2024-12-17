@@ -1,0 +1,41 @@
+{% extends "maestra.html" %}
+{% block titulo %} Tipos de equipos {% endblock %}
+{% block contenido %}
+
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Tipos de equipos</h3>
+            <a href="{{url_for('formulario_agregar_tipo_equipo')}}" class="button is-success">Agregar</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tipoequipo in tipo_equipos %}
+                    <tr>
+                        <td>{{tipoequipo[1]}}</td>
+                        <td>{{tipoequipo[2]}}</td>
+                        <td>
+                            {# Pasar el id (lo que hay en tipo_equipo[0]) #}
+                            <a href="{{url_for('editar_tipo_equipo', id=tipoequipo[0])}}" class="button is-info">Editar</a>
+                        </td>
+                        <td>
+                            <form action="{{url_for('eliminar_tipo_equipo')}}" method="POST">
+                                <input type="hidden" name="id" value="{{tipoequipo[0]}}">
+                                <button class="button is-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

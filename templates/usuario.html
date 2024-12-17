@@ -1,0 +1,47 @@
+{% extends "maestra.html" %}
+{% block titulo %} Usuarios {% endblock %}
+{% block contenido %}
+
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Usuarios</h3>
+            <a href="{{url_for('formulario_agregar_usuario')}}" class="button is-success">Agregar</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Cambiar estado</th>
+                        <th>Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{usuario[1]}}</td>
+                        <td>{{usuario[2]}}</td>
+                        <td>{{usuario[3]}}</td>
+                        <td>{{usuario[4]}}</td>
+                        <td>
+                            <form action="{{ url_for('cambiar_estado_usuario') }}" method="POST">
+                                <input type="hidden" name="id" value="{{ usuario[0] }}">
+                                <input type="hidden" name="estado" value="{{ 'Inactivo' if usuario[4] == 'Activo' else 'Activo' }}">
+                                <button type="submit" class="button is-warning">
+                                    {{ 'Desactivar' if usuario[4] == 'Activo' else 'Activar' }}
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <a href="{{url_for('editar_usuario', id=usuario[0])}}" class="button is-info">Editar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "maestra.html" %}
+{% block titulo %} Areas {% endblock %}
+{% block contenido %}
+
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Areas</h3>
+            <a href="{{url_for('formulario_agregar_area')}}" class="button is-success">Agregar</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Cambiar estado</th>
+                        <th>Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for area in areas %}
+                    <tr>
+                        <td>{{area[1]}}</td>
+                        <td>{{area[2]}}</td>
+                        <td>{{area[3]}}</td>
+                        <td>
+                            <form action="{{ url_for('cambiar_estado_area') }}" method="POST">
+                                <input type="hidden" name="id" value="{{ area[0] }}">
+                                <input type="hidden" name="estado" value="{{ 'Inactivo' if area[3] == 'Activo' else 'Activo' }}">
+                                <button type="submit" class="button is-warning">
+                                    {{ 'Desactivar' if area[3] == 'Activo' else 'Activar' }}
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            {# Pasar el id (lo que hay en area[0]) #}
+                            <a href="{{url_for('editar_area', id=area[0])}}" class="button is-info">Editar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}
