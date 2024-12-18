@@ -20,6 +20,11 @@ Agregar subarea
                         <option value="{{ area[0] }}">{{ area[1] }}</option>
                     {% endfor %}
                 </select>
+
+                <div class="field mt-2">
+                    <input type="checkbox" name="estado" id="estado" class="is-checkradio">
+                    <label for="estado">Activo</label>
+                </div>
                 
                 <button type="submit" class="button is-success mt-2">Guardar</button>
                 <a href="{{url_for('subareas')}}" class="button is-primary mt-2">Volver</a>

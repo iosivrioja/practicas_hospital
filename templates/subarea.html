@@ -12,9 +12,10 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Descripción</th>
+                        <th>Estado</th>
                         <th>Area</th>
-                        <th>Editar</th>
-                        <th>Eliminar</th>
+                        <th>Cambiar estado</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,15 +24,19 @@
                         <td>{{subarea[1]}}</td>
                         <td>{{subarea[2]}}</td>
                         <td>{{subarea[3]}}</td>
+                        <td>{{subarea[4]}}</td>
+                        <td>
+                            <form action="{{ url_for('cambiar_estado_subarea') }}" method="POST">
+                                <input type="hidden" name="id" value="{{ subarea[0] }}">
+                                <input type="hidden" name="estado" value="{{ 'Inactivo' if subarea[3] == 'Activo' else 'Activo' }}">
+                                <button type="submit" class="button is-warning">
+                                    {{ 'Desactivar' if subarea[3] == 'Activo' else 'Activar' }}
+                                </button>
+                            </form>
+                        </td>       
                         <td>
                             {# Pasar el id (lo que hay en subarea[0]) #}
                             <a href="{{url_for('editar_subarea', id=subarea[0])}}" class="button is-info">Editar</a>
-                        </td>
-                        <td>
-                            <form action="{{url_for('eliminar_subarea')}}" method="POST">
-                                <input type="hidden" name="id" value="{{subarea[0]}}">
-                                <button class="button is-danger">Eliminar</button>
-                            </form>
                         </td>
                     </tr>
                     {% endfor %}

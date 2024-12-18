@@ -21,6 +21,11 @@ Agregar parte
                         <option value="{{ equipo[0] }}">{{ equipo[1] }}</option>
                     {% endfor %}
                 </select>
+
+                <div class="field mt-2">
+                    <input type="checkbox" name="estado" id="estado" class="is-checkradio">
+                    <label for="estado">Activo</label>
+                </div>
                 
                 <button type="submit" class="button is-success mt-2">Guardar</button>
                 <a href="{{url_for('partes')}}" class="button is-primary mt-2">Volver</a>

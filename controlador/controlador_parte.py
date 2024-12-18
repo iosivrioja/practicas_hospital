@@ -1,10 +1,10 @@
 from bd import obtener_conexion
 
-def insertar_parte(nombre, descripcion, equipo_id):
+def insertar_parte(nombre, descripcion, estado, equipo_id):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO Parte(nombre, descripcion, equipo_id) VALUES (%s, %s, %s)",
-                       (nombre, descripcion, equipo_id))
+        cursor.execute("INSERT INTO Parte(nombre, descripcion, estado, equipo_id) VALUES (%s, %s, %s, %s)",
+                       (nombre, descripcion, estado, equipo_id))
     conexion.commit()
     conexion.close()
 

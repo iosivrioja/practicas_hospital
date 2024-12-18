@@ -12,8 +12,9 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Descripción</th>
-                        <th>Editar</th>
-                        <th>Eliminar</th>
+                        <th>Estado</th>
+                        <th>Cambiar estado</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,15 +22,19 @@
                     <tr>
                         <td>{{tipoequipo[1]}}</td>
                         <td>{{tipoequipo[2]}}</td>
+                        <td>{{tipoequipo[3]}}</td>
+                        <td>
+                            <form action="{{ url_for('cambiar_estado_tipo_equipo') }}" method="POST">
+                                <input type="hidden" name="id" value="{{ tipoequipo[0] }}">
+                                <input type="hidden" name="estado" value="{{ 'Inactivo' if tipoequipo[3] == 'Activo' else 'Activo' }}">
+                                <button type="submit" class="button is-warning">
+                                    {{ 'Desactivar' if tipoequipo[3] == 'Activo' else 'Activar' }}
+                                </button>
+                            </form>
+                        </td>                        
                         <td>
                             {# Pasar el id (lo que hay en tipo_equipo[0]) #}
                             <a href="{{url_for('editar_tipo_equipo', id=tipoequipo[0])}}" class="button is-info">Editar</a>
-                        </td>
-                        <td>
-                            <form action="{{url_for('eliminar_tipo_equipo')}}" method="POST">
-                                <input type="hidden" name="id" value="{{tipoequipo[0]}}">
-                                <button class="button is-danger">Eliminar</button>
-                            </form>
                         </td>
                     </tr>
                     {% endfor %}

@@ -14,8 +14,8 @@
                         <th>Email</th>
                         <th>Telefono</th>
                         <th>Estado</th>
+                        <th>Cambiar estado</th>
                         <th>Editar</th>
-                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,12 +37,6 @@
                         <td>
                             {# Pasar el id (lo que hay en agente[0]) #}
                             <a href="{{url_for('editar_agente', id=agente[0])}}" class="button is-info">Editar</a>
-                        </td>
-                        <td>
-                            <form action="{{url_for('eliminar_agente')}}" method="POST">
-                                <input type="hidden" name="id" value="{{agente[0]}}">
-                                <button class="button is-danger">Eliminar</button>
-                            </form>
                         </td>
                     </tr>
                     {% endfor %}

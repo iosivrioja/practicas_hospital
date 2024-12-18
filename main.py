@@ -66,7 +66,8 @@ def formulario_agregar_tipo_equipo():
 def guardar_tipo_equipo():
     nombre = request.form["nombre"]
     descripcion = request.form["descripcion"]
-    controlador_tipo_equipo.insertar_tipo_equipo(nombre, descripcion)
+    estado = 'Activo' if 'estado' in request.form else 'Inactivo'
+    controlador_tipo_equipo.insertar_tipo_equipo(nombre, descripcion, estado)
     return redirect("/tipo_equipos")
 
 @app.route("/tipo_equipos")
@@ -84,12 +85,20 @@ def editar_tipo_equipo(id):
     tipo_equipo = controlador_tipo_equipo.obtener_tipo_equipo_por_id(id)
     return render_template("editar_tipo_equipo.html", tipoequipo=tipo_equipo)
 
+@app.route("/cambiar_estado_tipo_equipo", methods=["POST"])
+def cambiar_estado_tipo_equipo():
+    id_tipo_equipo = request.form["id"]
+    nuevo_estado = request.form["estado"]
+    controlador_tipo_equipo.actualizar_estado_tipo_equipo(id_tipo_equipo, nuevo_estado)
+    return redirect("/tipo_equipos")
+
 @app.route("/actualizar_tipo_equipo", methods=["POST"])
 def actualizar_tipo_equipo():
     id_tipo_equipo = request.form["id"]
     nombre = request.form["nombre"]
     descripcion = request.form["descripcion"]
-    controlador_tipo_equipo.actualizar_tipo_equipo(nombre, descripcion, id_tipo_equipo)
+    estado = 'Activo' if 'estado' in request.form else 'Inactivo'
+    controlador_tipo_equipo.actualizar_tipo_equipo(nombre, descripcion, estado, id_tipo_equipo)
     return redirect("/tipo_equipos")
 
 @app.route("/agregar_subarea")
@@ -102,8 +111,9 @@ def formulario_agregar_subarea():
 def guardar_subarea():
     nombre = request.form["nombre"]
     descripcion = request.form["descripcion"]
+    estado = 'Activo' if 'estado' in request.form else 'Inactivo'
     id_area = request.form["area_id"]
-    controlador_subarea.insertar_subarea(nombre, descripcion, id_area)
+    controlador_subarea.insertar_subarea(nombre, descripcion, estado, id_area)
     return redirect("/subareas")
 
 @app.route("/subareas")
@@ -127,8 +137,16 @@ def actualizar_subarea():
     id_subarea = request.form["id"]
     nombre = request.form["nombre"]
     descripcion = request.form["descripcion"]
+    estado = 'Activo' if 'estado' in request.form else 'Inactivo'
     id_area = request.form["area_id"]
-    controlador_subarea.actualizar_subarea(nombre, descripcion, id_area, id_subarea)
+    controlador_subarea.actualizar_subarea(nombre, descripcion, estado, id_area, id_subarea)
+    return redirect("/subareas")
+
+@app.route("/cambiar_estado_subarea", methods=["POST"])
+def cambiar_estado_subarea():
+    id_subarea = request.form["id"]
+    nuevo_estado = request.form["estado"]
+    controlador_subarea.actualizar_estado_subarea(id_subarea, nuevo_estado)
     return redirect("/subareas")
 
 @app.route("/agregar_equipo")
@@ -193,8 +211,9 @@ def formulario_agregar_parte():
 def guardar_parte():
     nombre = request.form["nombre"]
     descripcion = request.form["descripcion"]
+    estado = 'Activo' if 'estado' in request.form else 'Inactivo'
     id_equipo = request.form["equipo_id"]
-    controlador_parte.insertar_parte(nombre, descripcion, id_equipo)
+    controlador_parte.insertar_parte(nombre, descripcion, estado, id_equipo)
     return redirect("/partes")
 
 @app.route("/partes")

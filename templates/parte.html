@@ -12,9 +12,10 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Descripcion</th>
+                        <th>Estado</th>
                         <th>Equipo</th>
+                        <th>Cambiar estado</th>
                         <th>Editar</th>
-                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,15 +24,19 @@
                         <td>{{parte[1]}}</td>
                         <td>{{parte[2]}}</td>
                         <td>{{parte[3]}}</td>
+                        <td>{{parte[4]}}</td>
+                        <td>
+                            <form action="{{ url_for('cambiar_estado_parte') }}" method="POST">
+                                <input type="hidden" name="id" value="{{ parte[0] }}">
+                                <input type="hidden" name="estado" value="{{ 'Inactivo' if parte[3] == 'Activo' else 'Activo' }}">
+                                <button type="submit" class="button is-warning">
+                                    {{ 'Desactivar' if parte[3] == 'Activo' else 'Activar' }}
+                                </button>
+                            </form>
+                        </td> 
                         <td>
                             {# Pasar el id (lo que hay en parte[0]) #}
                             <a href="{{url_for('editar_parte', id=parte[0])}}" class="button is-info">Editar</a>
-                        </td>
-                        <td>
-                            <form action="{{url_for('eliminar_parte')}}" method="POST">
-                                <input type="hidden" name="id" value="{{parte[0]}}">
-                                <button class="button is-danger">Eliminar</button>
-                            </form>
                         </td>
                     </tr>
                     {% endfor %}
