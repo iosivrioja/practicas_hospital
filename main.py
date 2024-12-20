@@ -11,6 +11,25 @@ import controlador.controlador_usuario as controlador_usuario
 app = Flask(__name__)
 
 @app.route("/")
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        contrasena = request.form['contrasena']
+
+        # Lógica para verificar las credenciales (asumiendo que tienes una función 'autenticar_usuario')
+        usuario = controlador_usuario.autenticar_usuario(email, contrasena)
+
+        if usuario:
+            # Inicio de sesión exitoso (redirige sin usar sesión)
+            return redirect('/dashboard')  # Redirigir a la página principal
+        else:
+            # Credenciales inválidas
+            return render_template('login.html', error='Credenciales inválidas')
+    else:
+        return render_template('login.html')
+
 @app.route("/maestra")
 def maestra():
     return render_template("maestra.html")

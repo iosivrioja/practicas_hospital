@@ -1,10 +1,14 @@
 from bd import obtener_conexion
+from flask_bcrypt import Bcrypt
 
-def insertar_usuario(nombre, email, rol, estado):
+bcrypt = Bcrypt()
+
+def insertar_usuario(nombre, email, contrasena, rol, estado):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO Usuario (nombre, email, rol, estado) VALUES (%s, %s, %s, %s)",
-                       (nombre, email, rol, estado))
+        hashed_password = bcrypt.generate_password_hash(contrasena).decode('utf-8')
+        cursor.execute("INSERT INTO Usuario (nombre, email, contrasena, rol, estado) VALUES (%s, %s, %s, %s, %s)",
+                       (nombre, email, hashed_password, rol, estado))
     conexion.commit()
     conexion.close()
 
@@ -16,7 +20,6 @@ def obtener_usuarios():
         usuarios = cursor.fetchall()
     conexion.close()
     return usuarios
-
 
 def eliminar_usuario(id):
     conexion = obtener_conexion()
@@ -62,3 +65,22 @@ def existe_email(email):
         existe = resultado[0] > 0
     conexion.close()
     return existe
+
+def autenticar_usuario(email, contrasena):
+    conexion = obtener_conexion()
+    usuario = None
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT id, nombre, email, contrasena, rol, estado FROM Usuario WHERE email = %s", (email,))
+        usuario = cursor.fetchone()
+    conexion.close()
+
+    # Verifica la contraseña si el usuario existe
+    if usuario and bcrypt.check_password_hash(usuario[3], contrasena):
+        return {
+            "id": usuario[0],
+            "nombre": usuario[1],
+            "email": usuario[2],
+            "rol": usuario[4],
+            "estado": usuario[5],
+        }
+    return None
