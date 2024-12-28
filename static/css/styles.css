@@ -1,0 +1,22 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4faff;
+}
+.navbar {
+    background-color: #007bff;
+}
+.navbar-item, .button {
+    color: white;
+}
+.navbar-item:hover, .button:hover {
+    background-color: #0056b3;
+}
+.navbar-burger span {
+    background-color: white;
+}
+.footer {
+    background-color: #007bff;
+    color: white;
+    padding: 1rem 1.5rem;
+    text-align: center;
+}
