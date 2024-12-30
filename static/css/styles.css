@@ -1,44 +1,54 @@
-/* General */
+/* Estilos generales existentes */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4faff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+}
+.navbar {
+    background-color: #007bff;
+}
+.navbar-item, .button {
+    color: white;
+}
+.navbar-item:hover, .button:hover {
+    background-color: #0056b3;
+}
+.navbar-burger span {
+    background-color: white;
+}
+.footer {
+    background-color: #007bff;
+    color: white;
+    padding: 1rem 1.5rem;
+    text-align: center;
 }
 
-/* Contenedor del formulario */
-.container {
+/* Estilos específicos para el login */
+.login-container {
     background-color: white;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 400px;
-    width: 100%;
+    margin: 5rem auto; /* Centrado horizontal con separación vertical */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Encabezado */
-h1 {
+.login-container h1 {
     font-size: 1.8rem;
     font-weight: bold;
     text-align: center;
+    color: #007bff; /* Color celeste */
     margin-bottom: 1.5rem;
-    color: #007bff;
 }
 
-/* Etiquetas de los campos */
-.label {
+.login-container .label {
     font-size: 0.9rem;
     font-weight: bold;
     color: #333;
     margin-bottom: 0.5rem;
 }
 
-/* Campos de entrada */
-.input {
+.login-container .input {
     width: 100%;
     padding: 0.8rem;
     font-size: 1rem;
@@ -48,14 +58,13 @@ h1 {
     transition: border-color 0.3s;
 }
 
-.input:focus {
+.login-container .input:focus {
     border-color: #007bff;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Botón */
-.button {
+.login-container .button {
     background-color: #007bff;
     color: white;
     padding: 0.8rem;
@@ -68,12 +77,11 @@ h1 {
     transition: background-color 0.3s;
 }
 
-.button:hover {
+.login-container .button:hover {
     background-color: #0056b3;
 }
 
-/* Notificación de error */
-.notification {
+.login-container .notification {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
