@@ -7,6 +7,7 @@ import controlador.controlador_equipo as controlador_equipo
 import controlador.controlador_parte as controlador_parte
 import controlador.controlador_agente as controlador_agente
 import controlador.controlador_usuario as controlador_usuario
+from controlador.controlador_bitacora import obtener_bitacora
 
 app = Flask(__name__)
 
@@ -37,6 +38,11 @@ def dashboard():
 @app.route("/maestra")
 def maestra():
     return render_template("maestra.html")
+
+@app.route("/bitacora")
+def bitacora():
+    registros = obtener_bitacora()
+    return render_template("bitacora.html", bitacora=registros)
 
 @app.route("/agregar_area")
 def formulario_agregar_area():

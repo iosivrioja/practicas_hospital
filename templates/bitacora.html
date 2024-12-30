@@ -1,0 +1,31 @@
+{% extends "maestra.html" %}
+
+{% block titulo %}Bitácora{% endblock %}
+
+{% block contenido %}
+<h1>Bitácora</h1>
+<table class="table is-striped is-hoverable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Acción</th>
+            <th>Tabla</th>
+            <th>Fecha</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registro in bitacora %}
+        <tr>
+            <td>{{ registro.id }}</td>
+            <td>{{ registro.usuario }}</td>
+            <td>{{ registro.accion }}</td>
+            <td>{{ registro.tabla }}</td>
+            <td>{{ registro.fecha }}</td>
+            <td>{{ registro.descripcion }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
