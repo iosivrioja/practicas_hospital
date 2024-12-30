@@ -11,15 +11,15 @@
                 <thead>
                     <tr>
                         <th>Código Patrimonial</th>
-                        <th>Tipo Equipo</th>
+                        <th>Tipo de Equipo</th>
                         <th>Procesador</th>
                         <th>Memoria RAM</th>
-                        <th>Sistema Operativo</th>
-                        <th>Subarea</th>
                         <th>Almacenamiento</th>
+                        <th>Sistema Operativo</th>
+                        <th>Subárea</th>
                         <th>Estado</th>
+                        <th>Cambiar estado</th>
                         <th>Editar</th>
-                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,14 +34,16 @@
                         <td>{{equipo[7]}}</td>
                         <td>{{equipo[8]}}</td>
                         <td>
-                            {# Pasar el id (lo que hay en equipo[0]) #}
-                            <a href="{{url_for('editar_equipo', id=equipo[0])}}" class="button is-info">Editar</a>
+                            <form action="{{ url_for('cambiar_estado_equipo') }}" method="POST">
+                                <input type="hidden" name="id" value="{{ equipo[0] }}">
+                                <input type="hidden" name="estado" value="{{ 'Inactivo' if equipo[8] == 'Activo' else 'Activo' }}">
+                                <button type="submit" class="button is-warning">
+                                    {{ 'Desactivar' if equipo[8] == 'Activo' else 'Activar' }}
+                                </button>
+                            </form>
                         </td>
                         <td>
-                            <form action="{{url_for('eliminar_equipo')}}" method="POST">
-                                <input type="hidden" name="id" value="{{equipo[0]}}">
-                                <button class="button is-danger">Eliminar</button>
-                            </form>
+                            <a href="{{url_for('editar_equipo', id=equipo[0])}}" class="button is-info">Editar</a>
                         </td>
                     </tr>
                     {% endfor %}

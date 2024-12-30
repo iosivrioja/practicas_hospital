@@ -17,16 +17,19 @@ Editar usuario
                 <label for="email">Email:</label>
                 <input value="{{usuario[2]}}" required type="email" class="input" placeholder="Email" name="email" id="email">
                 
+                <label for="contrasena">Contraseña (dejar en blanco para no cambiar):</label>
+                <input type="password" class="input" placeholder="Nueva contraseña" name="contrasena" id="contrasena">
+                
                 <label for="rol" style="margin-bottom: 0.5rem;">Rol:</label>
                 <div class="select">
                     <select name="rol" id="rol" required>
-                        <option value="Administrador">Administrador</option>
-                        <option value="Operador">Operador</option>
-                        <option value="Invitado">Invitado</option>
+                        <option value="Administrador" {{ 'selected' if usuario[3] == 'Administrador' else '' }}>Administrador</option>
+                        <option value="Operador" {{ 'selected' if usuario[3] == 'Operador' else '' }}>Operador</option>
+                        <option value="Invitado" {{ 'selected' if usuario[3] == 'Invitado' else '' }}>Invitado</option>
                     </select>
                 </div>
 
-                
+                <label for="estado">Estado:</label>
                 <div class="field mt-2">
                     <input type="checkbox" name="estado" id="estado" class="is-checkradio" {{ 'checked' if usuario[4] == 'Activo' else '' }}>
                     <label for="estado">Activo</label>
