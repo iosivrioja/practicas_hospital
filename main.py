@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, session
 
 import controlador.controlador_area as controlador_area
 import controlador.controlador_tipo_equipo as controlador_tipo_equipo
@@ -7,8 +7,10 @@ import controlador.controlador_equipo as controlador_equipo
 import controlador.controlador_parte as controlador_parte
 import controlador.controlador_agente as controlador_agente
 import controlador.controlador_usuario as controlador_usuario
+from controlador.controlador_bitacora import obtener_bitacora
 
 app = Flask(__name__)
+app.secret_key = 'tu_clave_secreta'
 
 @app.route("/")
 
@@ -18,17 +20,18 @@ def login():
         email = request.form['email']
         contrasena = request.form['contrasena']
 
-        # Lógica para verificar las credenciales (asumiendo que tienes una función 'autenticar_usuario')
         usuario = controlador_usuario.autenticar_usuario(email, contrasena)
 
         if usuario:
-            # Inicio de sesión exitoso (redirige sin usar sesión)
-            return redirect('/dashboard')  # Redirigir a la página principal
+            # Guarda el ID del usuario en la sesión
+            session['usuario_id'] = usuario['id']
+            session['nombre_usuario'] = usuario['nombre']  # Opcional: Guarda el nombre
+            return redirect('/dashboard')
         else:
-            # Credenciales inválidas
             return render_template('login.html', error='Credenciales inválidas')
     else:
         return render_template('login.html')
+
 
 @app.route("/dashboard")
 def dashboard():
@@ -37,6 +40,13 @@ def dashboard():
 @app.route("/maestra")
 def maestra():
     return render_template("maestra.html")
+
+@app.route("/bitacora")
+def bitacora():
+    registros = obtener_bitacora()
+    return render_template("bitacora.html", bitacora=registros)
+
+
 
 @app.route("/agregar_area")
 def formulario_agregar_area():
@@ -47,8 +57,16 @@ def guardar_area():
     nombre = request.form["nombre"]
     descripcion = request.form["descripcion"]
     estado = 'Activo' if 'estado' in request.form else 'Inactivo'
-    controlador_area.insertar_area(nombre, descripcion, estado)
+
+    usuario_id = session.get('usuario_id')  # Obtén el ID del usuario desde la sesión
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_area.insertar_area(nombre, descripcion, estado, usuario_id)
+    else:
+        return redirect('/login')  # Redirige si no hay usuario autenticado
+
     return redirect("/areas")
+
 
 @app.route("/areas")
 def areas():
