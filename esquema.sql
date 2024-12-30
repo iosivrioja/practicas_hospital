@@ -77,5 +77,6 @@ CREATE TABLE bitacora (
     tabla VARCHAR(50) NOT NULL,
     fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     descripcion TEXT,
-    FOREIGN KEY (usuario_id) REFERENCES Usuario(id) ON DELETE CASCADE
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
 );
+

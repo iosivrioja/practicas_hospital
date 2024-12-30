@@ -1,2 +1,5 @@
 Flask
 pymysql
+
+# Ejemplo de insert usuario:
+# INSERT INTO usuario (nombre, email, contrasena, rol, estado) VALUES ('Admin', 'admin@hospital.com', MD5('password123'), 'admin', 'Activo');
