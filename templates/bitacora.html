@@ -1,40 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitácora</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-<body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">Bitácora</h1>
-            <table class="table is-striped is-fullwidth">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Usuario</th>
-                        <th>Acción</th>
-                        <th>Tabla</th>
-                        <th>Fecha</th>
-                        <th>Descripción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for registro in bitacora %}
-                    <tr>
-                        <td>{{ registro[0] }}</td> <!-- ID -->
-                        <td>{{ registro[1] }}</td> <!-- Usuario -->
-                        <td>{{ registro[2] }}</td> <!-- Acción -->
-                        <td>{{ registro[3] }}</td> <!-- Tabla -->
-                        <td>{{ registro[4] }}</td> <!-- Fecha -->
-                        <td>{{ registro[5] }}</td> <!-- Descripción -->
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-</body>
-</html>
+{% extends "maestra.html" %}
+
+{% block titulo %}
+Bitácora
+{% endblock %}
+
+{% block contenido %}
+<h1 class="title">Bitácora</h1>
+<table class="table is-striped is-fullwidth">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Acción</th>
+            <th>Tabla</th>
+            <th>Fecha</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registro in bitacora %}
+        <tr>
+            <td>{{ registro[0] }}</td> <!-- ID -->
+            <td>{{ registro[1] }}</td> <!-- Usuario -->
+            <td>{{ registro[2] }}</td> <!-- Acción -->
+            <td>{{ registro[3] }}</td> <!-- Tabla -->
+            <td>{{ registro[4] }}</td> <!-- Fecha -->
+            <td>{{ registro[5] }}</td> <!-- Descripción -->
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -47,6 +47,7 @@ def bitacora():
     return render_template("bitacora.html", bitacora=registros)
 
 
+
 @app.route("/agregar_area")
 def formulario_agregar_area():
     return render_template("agregar_area.html")
