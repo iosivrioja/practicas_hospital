@@ -1,6 +1,7 @@
 {% extends "maestra.html" %}
 {% block titulo %}
 Agregar equipo
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 {% endblock %}
 {% block contenido %}
 <section class="section">
@@ -8,10 +9,8 @@ Agregar equipo
         <div class="column is-one-third">
             <h3 class="is-size-3">Agregar equipo</h3>
 
-            {% if mensaje_error %}
-                <div class="notification is-danger">
-                    {{ mensaje_error }}
-                </div>
+            {% if error %}
+            <div class="notification">{{ error }}</div>
             {% endif %}
 
             <form action="{{ url_for('guardar_equipo') }}" method="post">

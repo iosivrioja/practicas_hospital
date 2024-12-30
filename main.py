@@ -237,24 +237,34 @@ def formulario_agregar_equipo():
 
 @app.route("/guardar_equipo", methods=["POST"])
 def guardar_equipo():
-    codigo_patrimonial = request.form["codigo_patrimonial"]
-    id_tipo_equipo = request.form["tipo_equipo_id"]
-    procesador = request.form["procesador"]
-    memoria_ram = request.form["memoria_ram"]
-    sistema_operativo = request.form["sistema_operativo"]
-    id_subarea = request.form["subarea_id"]
-    almacenamiento = request.form["almacenamiento"]
-    estado = request.form["estado"]
+    try:
+        # Obtener datos del formulario
+        codigo_patrimonial = request.form["codigo_patrimonial"]
+        id_tipo_equipo = request.form["tipo_equipo_id"]
+        procesador = request.form["procesador"]
+        memoria_ram = request.form["memoria_ram"]
+        sistema_operativo = request.form["sistema_operativo"]
+        id_subarea = request.form["subarea_id"]
+        almacenamiento = request.form["almacenamiento"]
+        estado = 'Activo' if 'estado' in request.form else 'Inactivo'
 
-    usuario_id = session.get('usuario_id')
+        # Obtener el ID del usuario autenticado
+        usuario_id = session.get('usuario_id')
 
-    if usuario_id:  # Asegúrate de que el usuario esté autenticado
-        controlador_equipo.insertar_equipo(codigo_patrimonial, id_tipo_equipo, procesador, memoria_ram, sistema_operativo, id_subarea, almacenamiento, estado, usuario_id)
-    else:
-        return redirect('/login')
-    
-    
-    return redirect("/equipos")
+        # Validar si el usuario está autenticado
+        if not usuario_id:
+            return redirect('/login')
+
+        # Intentar insertar el equipo
+        controlador_equipo.insertar_equipo(
+            codigo_patrimonial, id_tipo_equipo, procesador, memoria_ram,
+            sistema_operativo, id_subarea, almacenamiento, estado, usuario_id
+        )
+        return redirect("/equipos")
+
+    except Exception as e:
+        return render_template("agregar_equipo.html", error='El código patrimonial que intenta ingresar ya existe')
+
 
 @app.route("/equipos")
 def equipos():
@@ -276,25 +286,28 @@ def editar_equipo(id):
 
 @app.route("/actualizar_equipo", methods=["POST"])
 def actualizar_equipo():
-    id_equipo = request.form["id"]
-    codigo_patrimonial = request.form["codigo_patrimonial"]
-    id_tipo_equipo = request.form["tipo_equipo_id"]
-    procesador = request.form["procesador"]
-    memoria_ram = request.form["memoria_ram"]
-    sistema_operativo = request.form["sistema_operativo"]
-    id_subarea = request.form["subarea_id"]
-    almacenamiento = request.form["almacenamiento"]
-    estado = request.form["estado"]
+    try:
+        id_equipo = request.form["id"]
+        codigo_patrimonial = request.form["codigo_patrimonial"]
+        id_tipo_equipo = request.form["tipo_equipo_id"]
+        procesador = request.form["procesador"]
+        memoria_ram = request.form["memoria_ram"]
+        sistema_operativo = request.form["sistema_operativo"]
+        id_subarea = request.form["subarea_id"]
+        almacenamiento = request.form["almacenamiento"]
+        estado = request.form["estado"]
 
-    usuario_id = session.get('usuario_id')
+        usuario_id = session.get('usuario_id')
 
-    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        if not usuario_id:
+            return redirect('')
+
         controlador_equipo.actualizar_equipo(codigo_patrimonial, id_tipo_equipo, procesador, memoria_ram, sistema_operativo, id_subarea, almacenamiento, estado, id_equipo, usuario_id)
-    else:
-        return redirect('/login')
+        
+        return redirect("/equipos")
     
-    
-    return redirect("/equipos")
+    except Exception as e:
+        return render_template("editar_equipo.html", error='El código patrimonial que intenta ingresar ya existe')
 
 @app.route("/cambiar_estado_equipo", methods=["POST"])
 def cambiar_estado_equipo():

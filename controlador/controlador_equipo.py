@@ -40,16 +40,16 @@ def obtener_equipo_por_id(id):
 def actualizar_equipo(codigo_patrimonial, tipo_equipo_id, procesador, memoria_ram, sistema_operativo, subarea_id, almacenamiento, estado, id, usuario_id):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("UPDATE Equipo SET codigo_patrimonial = %s, tipo_equipo_id = %s, procesador = %s, memoria_ram = %s, sistema_operativo = %s, subarea_id = %s, almacenamiento = %s, estado = %s WHERE id = %s",
+        cursor.execute("UPDATE equipo SET codigo_patrimonial = %s, tipo_equipo_id = %s, procesador = %s, memoria_ram = %s, sistema_operativo = %s, subarea_id = %s, almacenamiento = %s, estado = %s WHERE id = %s",
                        (codigo_patrimonial, tipo_equipo_id, procesador, memoria_ram, sistema_operativo, subarea_id, almacenamiento, estado, id))
     conexion.commit()
     conexion.close()
 
-    registrar_bitacora(usuario_id, "Actualizar", "Area", f"Se actualizó el área '{codigo_patrimonial}'.")
+    registrar_bitacora(usuario_id, "Actualizar", "Equipo", f"Se actualizó el equipo '{codigo_patrimonial}'.")
 
-def actualizar_estado_agente(id, nuevo_estado):
+def actualizar_estado_equipo(id, nuevo_estado):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("UPDATE agente SET estado = %s WHERE id = %s", (nuevo_estado, id))
+        cursor.execute("UPDATE equipo SET estado = %s WHERE id = %s", (nuevo_estado, id))
     conexion.commit()
     conexion.close()

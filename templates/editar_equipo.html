@@ -1,12 +1,18 @@
 {% extends "maestra.html" %}
 {% block titulo %}
 Editar equipo
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 {% endblock %}
 {% block contenido %}
 <section class="section">
     <div class="columns">
         <div class="column">
             <h3 class="is-size-3">Editar equipo</h3>
+
+            {% if error %}
+            <div class="notification">{{ error }}</div>
+            {% endif %}
+
             <form action="{{url_for('actualizar_equipo')}}" method="post">
                 <!-- Enviar el ID en un campo oculto -->
                 <input type="hidden" name="id" value="{{equipo[0]}}">
