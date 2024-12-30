@@ -12,15 +12,15 @@ def registrar_bitacora(usuario_id, accion, tabla, descripcion=None):
 
 def obtener_bitacora():
     conexion = obtener_conexion()
-    registros = []
+    bitacora = []
     with conexion.cursor() as cursor:
         cursor.execute("""
             SELECT b.id, u.nombre AS usuario, b.accion, b.tabla, b.fecha, b.descripcion
             FROM bitacora b
-            JOIN Usuario u ON b.usuario_id = u.id
+            INNER JOIN Usuario u ON b.usuario_id = u.id
             ORDER BY b.fecha DESC
         """)
-        registros = cursor.fetchall()
+        bitacora = cursor.fetchall()
     conexion.close()
-    return registros
+    return bitacora
 
