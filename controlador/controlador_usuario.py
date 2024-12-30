@@ -1,12 +1,11 @@
 from bd import obtener_conexion
-from flask_bcrypt import Bcrypt
-
-bcrypt = Bcrypt()
+import hashlib  # Para trabajar con MD5
 
 def insertar_usuario(nombre, email, contrasena, rol, estado):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        hashed_password = bcrypt.generate_password_hash(contrasena).decode('utf-8')
+        # Genera un hash MD5 para la contraseña
+        hashed_password = hashlib.md5(contrasena.encode('utf-8')).hexdigest()
         cursor.execute("INSERT INTO Usuario (nombre, email, contrasena, rol, estado) VALUES (%s, %s, %s, %s, %s)",
                        (nombre, email, hashed_password, rol, estado))
     conexion.commit()
@@ -74,13 +73,15 @@ def autenticar_usuario(email, contrasena):
         usuario = cursor.fetchone()
     conexion.close()
 
-    # Verifica la contraseña si el usuario existe
-    if usuario and bcrypt.check_password_hash(usuario[3], contrasena):
-        return {
-            "id": usuario[0],
-            "nombre": usuario[1],
-            "email": usuario[2],
-            "rol": usuario[4],
-            "estado": usuario[5],
-        }
+    # Verifica la contraseña con MD5
+    if usuario:
+        hashed_md5 = hashlib.md5(contrasena.encode('utf-8')).hexdigest()
+        if hashed_md5 == usuario[3]:
+            return {
+                "id": usuario[0],
+                "nombre": usuario[1],
+                "email": usuario[2],
+                "rol": usuario[4],
+                "estado": usuario[5],
+            }
     return None
