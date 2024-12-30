@@ -1,12 +1,15 @@
 from bd import obtener_conexion
+from controlador.controlador_bitacora import registrar_bitacora
 
-def insertar_equipo(codigo_patrimonial, tipo_equipo_id, procesador, memoria_ram, sistema_operativo, subarea_id, almacenamiento, estado):
+def insertar_equipo(codigo_patrimonial, tipo_equipo_id, procesador, memoria_ram, sistema_operativo, subarea_id, almacenamiento, estado, usuario_id):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
         cursor.execute("INSERT INTO Equipo(codigo_patrimonial, tipo_equipo_id, procesador, memoria_ram, sistema_operativo, subarea_id, almacenamiento, estado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                        (codigo_patrimonial, tipo_equipo_id, procesador, memoria_ram, sistema_operativo, subarea_id, almacenamiento, estado))
     conexion.commit()
     conexion.close()
+
+    registrar_bitacora(usuario_id, "Añadir", "Equipo", f"Se añadió el equipo '{codigo_patrimonial}' con estado '{estado}'.")
 
 def obtener_equipos():
     conexion = obtener_conexion()
@@ -34,13 +37,15 @@ def obtener_equipo_por_id(id):
     conexion.close()
     return equipo
 
-def actualizar_equipo(codigo_patrimonial, tipo_equipo_id, procesador, memoria_ram, sistema_operativo, subarea_id, almacenamiento, estado, id):
+def actualizar_equipo(codigo_patrimonial, tipo_equipo_id, procesador, memoria_ram, sistema_operativo, subarea_id, almacenamiento, estado, id, usuario_id):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
         cursor.execute("UPDATE Equipo SET codigo_patrimonial = %s, tipo_equipo_id = %s, procesador = %s, memoria_ram = %s, sistema_operativo = %s, subarea_id = %s, almacenamiento = %s, estado = %s WHERE id = %s",
                        (codigo_patrimonial, tipo_equipo_id, procesador, memoria_ram, sistema_operativo, subarea_id, almacenamiento, estado, id))
     conexion.commit()
     conexion.close()
+
+    registrar_bitacora(usuario_id, "Actualizar", "Area", f"Se actualizó el área '{codigo_patrimonial}'.")
 
 def actualizar_estado_agente(id, nuevo_estado):
     conexion = obtener_conexion()

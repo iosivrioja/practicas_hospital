@@ -89,7 +89,14 @@ def actualizar_area():
     nombre = request.form["nombre"]
     descripcion = request.form["descripcion"]
     estado = 'Activo' if 'estado' in request.form else 'Inactivo'
-    controlador_area.actualizar_area(nombre, descripcion, estado, id_area)
+
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_area.actualizar_area(nombre, descripcion, estado, id_area, usuario_id)
+    else:
+        return redirect('/login')
+    
     return redirect("/areas")
 
 @app.route("/cambiar_estado_area", methods=["POST"])
@@ -108,7 +115,15 @@ def guardar_tipo_equipo():
     nombre = request.form["nombre"]
     descripcion = request.form["descripcion"]
     estado = 'Activo' if 'estado' in request.form else 'Inactivo'
-    controlador_tipo_equipo.insertar_tipo_equipo(nombre, descripcion, estado)
+    
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_tipo_equipo.insertar_tipo_equipo(nombre, descripcion, estado, usuario_id)
+    else:
+        return redirect('/login')
+
+
     return redirect("/tipo_equipos")
 
 @app.route("/tipo_equipos")
@@ -139,7 +154,15 @@ def actualizar_tipo_equipo():
     nombre = request.form["nombre"]
     descripcion = request.form["descripcion"]
     estado = 'Activo' if 'estado' in request.form else 'Inactivo'
-    controlador_tipo_equipo.actualizar_tipo_equipo(nombre, descripcion, estado, id_tipo_equipo)
+
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_tipo_equipo.actualizar_tipo_equipo(nombre, descripcion, estado, id_tipo_equipo, usuario_id)
+    else:
+        return redirect('/login')
+    
+    
     return redirect("/tipo_equipos")
 
 @app.route("/agregar_subarea")
@@ -154,7 +177,15 @@ def guardar_subarea():
     descripcion = request.form["descripcion"]
     estado = 'Activo' if 'estado' in request.form else 'Inactivo'
     id_area = request.form["area_id"]
-    controlador_subarea.insertar_subarea(nombre, descripcion, estado, id_area)
+
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_subarea.insertar_subarea(nombre, descripcion, estado, id_area, usuario_id)
+    else:
+        return redirect('/login')
+    
+    
     return redirect("/subareas")
 
 @app.route("/subareas")
@@ -180,7 +211,14 @@ def actualizar_subarea():
     descripcion = request.form["descripcion"]
     estado = 'Activo' if 'estado' in request.form else 'Inactivo'
     id_area = request.form["area_id"]
-    controlador_subarea.actualizar_subarea(nombre, descripcion, estado, id_area, id_subarea)
+
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_subarea.actualizar_subarea(nombre, descripcion, estado, id_area, id_subarea, usuario_id)
+    else:
+        return redirect('/login')
+    
     return redirect("/subareas")
 
 @app.route("/cambiar_estado_subarea", methods=["POST"])
@@ -207,7 +245,15 @@ def guardar_equipo():
     id_subarea = request.form["subarea_id"]
     almacenamiento = request.form["almacenamiento"]
     estado = request.form["estado"]
-    controlador_equipo.insertar_equipo(codigo_patrimonial, id_tipo_equipo, procesador, memoria_ram, sistema_operativo, id_subarea, almacenamiento, estado)
+
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_equipo.insertar_equipo(codigo_patrimonial, id_tipo_equipo, procesador, memoria_ram, sistema_operativo, id_subarea, almacenamiento, estado, usuario_id)
+    else:
+        return redirect('/login')
+    
+    
     return redirect("/equipos")
 
 @app.route("/equipos")
@@ -239,8 +285,24 @@ def actualizar_equipo():
     id_subarea = request.form["subarea_id"]
     almacenamiento = request.form["almacenamiento"]
     estado = request.form["estado"]
-    controlador_equipo.actualizar_equipo(codigo_patrimonial, id_tipo_equipo, procesador, memoria_ram, sistema_operativo, id_subarea, almacenamiento, estado, id_equipo)
+
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_equipo.actualizar_equipo(codigo_patrimonial, id_tipo_equipo, procesador, memoria_ram, sistema_operativo, id_subarea, almacenamiento, estado, id_equipo, usuario_id)
+    else:
+        return redirect('/login')
+    
+    
     return redirect("/equipos")
+
+@app.route("/cambiar_estado_equipo", methods=["POST"])
+def cambiar_estado_equipo():
+    id_equipo = request.form["id"]
+    nuevo_estado = request.form["estado"]
+    controlador_equipo.actualizar_estado_equipo(id_equipo, nuevo_estado)
+    return redirect("/equipos")
+
 
 @app.route("/agregar_parte")
 def formulario_agregar_parte():
@@ -254,7 +316,14 @@ def guardar_parte():
     descripcion = request.form["descripcion"]
     estado = 'Activo' if 'estado' in request.form else 'Inactivo'
     id_equipo = request.form["equipo_id"]
-    controlador_parte.insertar_parte(nombre, descripcion, estado, id_equipo)
+
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_parte.insertar_parte(nombre, descripcion, estado, id_equipo, usuario_id)
+    else:
+        return redirect('/login')
+    
     return redirect("/partes")
 
 @app.route("/partes")
@@ -278,9 +347,25 @@ def actualizar_parte():
     id_parte = request.form["id"]
     nombre = request.form["nombre"]
     descripcion = request.form["descripcion"]
+    estado = 'Activo' if 'estado' in request.form else 'Inactivo'
     id_equipo = request.form["equipo_id"]
-    controlador_parte.actualizar_parte(nombre, descripcion, id_equipo, id_parte)
+
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_parte.actualizar_parte(nombre, descripcion, estado, id_equipo, id_parte, usuario_id)
+    else:
+        return redirect('/login')
+    
     return redirect("/partes")
+
+@app.route("/cambiar_estado_parte", methods=["POST"])
+def cambiar_estado_parte():
+    id_parte = request.form["id"]
+    nuevo_estado = request.form["estado"]
+    controlador_parte.actualizar_estado_parte(id_parte, nuevo_estado)
+    return redirect("/partes")
+
 
 @app.route("/agregar_agente")
 def formulario_agregar_agente():
@@ -292,7 +377,15 @@ def guardar_agente():
     email = request.form["email"]
     telefono = request.form["telefono"]
     estado = 'Activo' if 'estado' in request.form else 'Inactivo'
-    controlador_agente.insertar_agente(nombre, email, telefono, estado)
+
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_agente.insertar_agente(nombre, email, telefono, estado, usuario_id)
+    else:
+        return redirect('/login')
+    
+    
     return redirect("/agentes")
 
 @app.route("/agentes")
@@ -317,7 +410,14 @@ def actualizar_agente():
     email = request.form["email"]
     telefono = request.form["telefono"]
     estado = 'Activo' if 'estado' in request.form else 'Inactivo'
-    controlador_agente.actualizar_agente(nombre, email, telefono, estado, id_agente)
+
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_agente.actualizar_agente(nombre, email, telefono, estado, id_agente, usuario_id)
+    else:
+        return redirect('/login')
+    
     return redirect("/agentes")
 
 @app.route("/cambiar_estado_agente", methods=["POST"])
@@ -369,7 +469,15 @@ def actualizar_usuario():
     email = request.form["email"]
     rol = request.form["rol"]
     estado = 'Activo' if 'estado' in request.form else 'Inactivo'
-    controlador_usuario.actualizar_usuario(nombre, email, rol, estado, id_usuario)
+
+    usuario_id = session.get('usuario_id')
+
+    if usuario_id:  # Asegúrate de que el usuario esté autenticado
+        controlador_usuario.actualizar_usuario(nombre, email, rol, estado, id_usuario, usuario_id)
+    else:
+        return redirect('/login')
+    
+    
     return redirect("/usuarios")
 
 @app.route("/cambiar_estado_usuario", methods=["POST"])

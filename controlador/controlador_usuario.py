@@ -1,7 +1,8 @@
 from bd import obtener_conexion
 import hashlib  # Para trabajar con MD5
+from controlador.controlador_bitacora import registrar_bitacora
 
-def insertar_usuario(nombre, email, contrasena, rol, estado):
+def insertar_usuario(nombre, email, contrasena, rol, estado, usuario_id):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
         # Genera un hash MD5 para la contraseña
@@ -10,6 +11,8 @@ def insertar_usuario(nombre, email, contrasena, rol, estado):
                        (nombre, email, hashed_password, rol, estado))
     conexion.commit()
     conexion.close()
+
+    registrar_bitacora(usuario_id, "Añadir", "Usuario", f"Se añadió el usuario '{nombre}' con estado '{estado}'.")
 
 def obtener_usuarios():
     conexion = obtener_conexion()
@@ -40,13 +43,15 @@ def obtener_usuario_por_id(id):
     conexion.close()
     return usuario
 
-def actualizar_usuario(nombre, email, rol, estado, id):
+def actualizar_usuario(nombre, email, rol, estado, id, usuario_id):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
         cursor.execute("UPDATE Usuario SET nombre = %s, email = %s, rol = %s, estado = %s WHERE id = %s",
                        (nombre, email, rol, estado, id))
     conexion.commit()
     conexion.close()
+
+    registrar_bitacora(usuario_id, "Actualizar", "Usuario", f"Se actualizó el usuario '{nombre}'")
 
 def actualizar_estado_usuario(id, nuevo_estado):
     conexion = obtener_conexion()

@@ -47,7 +47,7 @@ def actualizar_area(nombre, descripcion, estado, id, usuario_id):
     conexion.commit()
     conexion.close()
 
-    registrar_bitacora(usuario_id, "Actualizar", "Area", f"Se actualizó el área con ID {id}.")
+    registrar_bitacora(usuario_id, "Actualizar", "Area", f"Se actualizó el área '{nombre}'.")
 
 def actualizar_estado_area(id, nuevo_estado):
     conexion = obtener_conexion()

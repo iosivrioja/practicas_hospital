@@ -1,12 +1,15 @@
 from bd import obtener_conexion
+from controlador.controlador_bitacora import registrar_bitacora
 
-def insertar_subarea(nombre, descripcion, estado, area_id):
+def insertar_subarea(nombre, descripcion, estado, area_id, usuario_id):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
         cursor.execute("INSERT INTO Subarea(nombre, descripcion, estado, area_id) VALUES (%s, %s, %s, %s)",
                        (nombre, descripcion, estado, area_id))
     conexion.commit()
     conexion.close()
+
+    registrar_bitacora(usuario_id, "Añadir", "Subárea", f"Se añadió el subárea '{nombre}' con estado '{estado}'.")
 
 def obtener_subareas():
     conexion = obtener_conexion()
@@ -34,13 +37,15 @@ def obtener_subarea_por_id(id):
     conexion.close()
     return subarea
 
-def actualizar_subarea(nombre, descripcion, estado, area_id, id):
+def actualizar_subarea(nombre, descripcion, estado, area_id, id, usuario_id):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
         cursor.execute("UPDATE Subarea SET nombre = %s, descripcion = %s, estado = %s, area_id = %s WHERE id = %s",
                        (nombre, descripcion, estado, area_id, id))
     conexion.commit()
     conexion.close()
+
+    registrar_bitacora(usuario_id, "Actualizar", "Subárea", f"Se actualizó el subárea '{nombre}'.")
 
 def actualizar_estado_subarea(id, nuevo_estado):
     conexion = obtener_conexion()
