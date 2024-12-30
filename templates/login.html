@@ -1,27 +1,36 @@
-{% include 'header.html' %}
-<section class="section">
-    <div class="container">
-        <h1>Iniciar Sesión</h1>
-        {% if error %}
-        <div class="notification is-danger">{{ error }}</div>
-        {% endif %}
-        <form action="/login" method="POST">
-            <div class="field">
-                <label class="label">Correo Electrónico:</label>
-                <div class="control">
-                    <input class="input" type="email" name="email" placeholder="Ingresa tu correo" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="ruta-a-tu-css.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1>Iniciar Sesión</h1>
+            {% if error %}
+            <div class="notification is-danger">{{ error }}</div>
+            {% endif %}
+            <form action="/login" method="POST">
+                <div class="field">
+                    <label class="label">Correo Electrónico:</label>
+                    <div class="control">
+                        <input class="input" type="email" name="email" placeholder="Ingresa tu correo" required>
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="label">Contraseña:</label>
-                <div class="control">
-                    <input class="input" type="password" name="password" placeholder="Ingresa tu contraseña" required>
+                <div class="field">
+                    <label class="label">Contraseña:</label>
+                    <div class="control">
+                        <input class="input" type="password" name="password" placeholder="Ingresa tu contraseña" required>
+                    </div>
                 </div>
-            </div>
-            <div class="control">
-                <button class="button is-primary" type="submit">Iniciar Sesión</button>
-            </div>
-        </form>
-    </div>
-</section>
-{% include 'footer.html' %}
+                <div class="control">
+                    <button class="button is-primary" type="submit">Iniciar Sesión</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+</html>
